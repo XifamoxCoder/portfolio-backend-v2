@@ -1,11 +1,12 @@
-import { HttpAdapterHost, NestApplication, NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { ConfigService } from '@nestjs/config';
-import { NestExpressApplication } from '@nestjs/platform-express';
-import { certificateConfig } from '../secrets/certificates';
 import { Logger, ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { HttpAdapterHost, NestApplication, NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { PrismaClientExceptionFilter } from 'nestjs-prisma';
+
+import { certificateConfig } from '../secrets/certificates';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -45,9 +46,6 @@ async function bootstrap() {
 
   await app.listen(port, host);
 
-  Logger.log(
-    `Application is running on https://${host}:${port}`,
-    NestApplication.name,
-  );
+  Logger.log(`Application is running on https://${host}:${port}`, NestApplication.name);
 }
 bootstrap();
