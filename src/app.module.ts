@@ -6,6 +6,7 @@ import { ApiModule } from './api/api.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import appConfig from './config/app.config';
+import { SharedModule } from './shared/shared.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import appConfig from './config/app.config';
       isGlobal: true,
     }),
     ApiModule,
+    SharedModule,
   ],
   controllers: [AppController],
   providers: [AppService],
