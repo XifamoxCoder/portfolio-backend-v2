@@ -14,9 +14,9 @@ export class CreateUserDto {
   @ApiProperty({ required: false, default: true })
   @IsBoolean()
   @IsOptional()
-  public readonly darkMode: boolean;
+  public readonly darkMode?: boolean;
 
   @ApiProperty({ enum: $Enums.Role, default: $Enums.Role.USER })
   @IsEnum($Enums.Role)
-  public readonly role: $Enums.Role;
+  public readonly role?: $Enums.Role;
 }

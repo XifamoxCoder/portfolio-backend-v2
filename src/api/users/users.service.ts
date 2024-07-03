@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import * as bcrypt from 'bcryptjs';
 import { PrismaService } from 'nestjs-prisma';
 
 import { CreateUserDto } from './dto/create-user.dto';
@@ -13,7 +14,13 @@ export class UsersService {
 
     if (!name && !password) throw new BadRequestException('email and password is required');
 
-    return this.prisma.users.create({ data: createUserDto });
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const userData = {
+      ...createUserDto,
+      password: hashedPassword,
+    };
+
+    return this.prisma.users.create({ data: userData });
   }
 
   public async findAll() {
@@ -24,6 +31,14 @@ export class UsersService {
     const user = await this.prisma.users.findUnique({ where: { id } });
 
     if (!user) throw new NotFoundException(`User with id ${id} not found`);
+
+    return user;
+  }
+
+  public async findOneByName(name: string) {
+    const user = await this.prisma.users.findFirst({ where: { name } });
+
+    if (!user) false;
 
     return user;
   }
